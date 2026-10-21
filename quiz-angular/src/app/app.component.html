@@ -1,0 +1,23 @@
+<div class="screen-wrapper" *ngIf="screen === 'setup'">
+  <app-setup-screen
+    [creating]="creatingQuiz"
+    [createError]="createError"
+    (create)="onCreateQuiz($event)"
+  ></app-setup-screen>
+</div>
+
+<div class="screen-wrapper" *ngIf="screen === 'quiz' && quizId !== null">
+  <app-quiz-screen
+    [quizId]="quizId"
+    [questions]="questions"
+    (finished)="onQuizFinished($event)"
+  ></app-quiz-screen>
+</div>
+
+<div class="screen-wrapper" *ngIf="screen === 'results'">
+  <app-results-screen
+    [score]="score"
+    [total]="total"
+    (retry)="retry()"
+  ></app-results-screen>
+</div>

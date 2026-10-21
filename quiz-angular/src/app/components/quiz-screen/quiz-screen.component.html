@@ -1,0 +1,49 @@
+<div class="sheet">
+
+  <div class="quiz-header">
+    <div class="tally">
+      <div
+        *ngFor="let q of questions; let i = index"
+        [class]="'tally-mark ' + tallyClass(i)"
+      ></div>
+    </div>
+    <div class="timer">
+      <svg viewBox="0 0 40 40" class="timer-ring">
+        <circle cx="20" cy="20" r="17" class="ring-track"></circle>
+        <circle
+          cx="20" cy="20" r="17" class="ring-fill"
+          [style.stroke-dashoffset]="ringOffset"
+          [style.stroke]="ringColor"
+        ></circle>
+      </svg>
+      <span class="timer-num">{{ displayTimeLeft }}</span>
+    </div>
+  </div>
+
+  <p class="q-index">Question {{ currentIndex + 1 }} of {{ questions.length }}</p>
+  <h2 class="q-text">{{ currentQuestion.questionTitle }}</h2>
+
+  <ul class="options">
+    <li
+      *ngFor="let opt of currentOptions; let i = index"
+      [class]="'option ' + optionClass(i)"
+      tabindex="0"
+      role="button"
+      (click)="selectOption(i)"
+      (keydown.enter)="selectOption(i)"
+      (keydown.space)="$event.preventDefault(); selectOption(i)"
+    >
+      <span class="option-letter">{{ letters[i] }}</span>
+      <span class="option-text">{{ opt }}</span>
+    </li>
+  </ul>
+
+  <div class="quiz-footer">
+    <p class="feedback" *ngIf="submitting">Submitting your answers…</p>
+    <p class="feedback wrong" *ngIf="submitErrorMessage">{{ submitErrorMessage }}</p>
+    <button class="btn-primary" [disabled]="selectedIndex < 0 || submitting" (click)="next()">
+      {{ isLastQuestion ? 'Submit quiz' : 'Next question' }}
+    </button>
+  </div>
+
+</div>

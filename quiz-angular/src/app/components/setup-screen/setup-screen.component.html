@@ -1,0 +1,37 @@
+<div class="sheet">
+  <p class="kicker">New quiz</p>
+  <h1 class="title">Set up your quiz</h1>
+  <p class="subtitle">Pick a category and how many questions to pull from it.</p>
+
+  <ng-container *ngIf="loadingCategories">
+    <p class="load-status">Loading categories…</p>
+  </ng-container>
+
+  <ng-container *ngIf="!loadingCategories">
+    <p class="load-status" *ngIf="loadError">{{ loadError }}</p>
+
+    <form *ngIf="categories.length > 0" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label class="field-label" for="category">Category</label>
+        <select class="field-input" id="category" name="category" [(ngModel)]="category">
+          <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="numQ">Number of questions</label>
+        <input class="field-input" id="numQ" name="numQ" type="number" min="1" max="50" [(ngModel)]="numQ">
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="title">Quiz title</label>
+        <input class="field-input" id="title" name="title" type="text" [(ngModel)]="title">
+      </div>
+
+      <button class="btn-primary" type="submit" [disabled]="creating">
+        {{ creating ? 'Creating…' : 'Create quiz' }}
+      </button>
+      <p class="load-status" *ngIf="createError">{{ createError }}</p>
+    </form>
+  </ng-container>
+</div>
